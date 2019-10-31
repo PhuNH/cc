@@ -33,7 +33,7 @@ app.get('/', function homepage(req, res) {
  */
 
 app.get('/api', (req, res) => {
-  // TODO: Document all your api endpoints below as a simple hardcoded JSON object.
+  // Document all your api endpoints below as a simple hardcoded JSON object.
   res.json({
     message: 'Welcome to my app api!',
     documentationUrl: '', //leave this also blank for the first exercise
@@ -42,22 +42,24 @@ app.get('/api', (req, res) => {
       {method: 'GET', path: '/api', description: 'Describes all available endpoints'},
       {method: 'GET', path: '/api/profile', description: 'Data about me'},
       {method: 'GET', path: '/api/books/', description: 'Get All books information'},
-      // TODO: Write other API end-points description here like above
+      // Write other API end-points description here like above
+      {method: 'POST', path: '/api/books/', description: 'Add a book information into database'},
+      {method: 'PUT', path: '/api/books/:id', description: 'Update a book information based upon the specified ID'},
+      {method: 'DELETE', path: '/api/books/:id', description: 'Delete a book based upon the specified ID'}
     ]
   })
 });
-// TODO:  Fill the values
+// Fill the values
 app.get('/api/profile', (req, res) => {
   res.json({
-    'name': '',
-    'homeCountry': '',
-    'degreeProgram': '',//informatics or CSE.. etc
-    'email': '',
+    'name': 'Some Name',
+    'homeCountry': 'Some Country',
+    'degreeProgram': 'Some Program',//informatics or CSE.. etc
+    'email': 'some_email@some.domain',
     'deployedURLLink': '',//leave this blank for the first exercise
     'apiDocumentationURL': '', //leave this also blank for the first exercise
-    'currentCity': '',
-    'hobbies': []
-
+    'currentCity': 'Some City',
+    'hobbies': ['Some adventurous hobby', 'Some stupid hobby', 'Some useful hobby', 'Some hobby']
   })
 });
 /*
@@ -85,14 +87,17 @@ app.post('/api/books/', (req, res) => {
    */
   console.log(req.body);
   /*
-   * TODO: use the books model and create a new object
+   * use the books model and create a new object
    * with the information in req.body
    */
-  /*
-   * return the new book information object as json
-   */
-  var newBook = {};
-  res.json(newBook);
+  db.books.create(req.body, (err, book) => {
+    if (err) throw err;
+    /*
+     * return the new book information object as json
+     */
+    var newBook = book;
+    res.json(newBook);
+  });
 });
 
 /*
@@ -107,13 +112,16 @@ app.put('/api/books/:id', (req, res) => {
   console.log(`book ID = ${bookId} \n Book Data = ${bookNewData}`);
 
   /*
-   * TODO: use the books model and find using the bookId and update the book information
+   * use the books model and find using the bookId and update the book information
    */
-  /*
-   * Send the updated book information as a JSON object
-   */
-  var updatedBookInfo = {};
-  res.json(updatedBookInfo);
+  db.books.findByIdAndUpdate(bookId, bookNewData, (err, updated) => {
+    if (err) throw err;
+    /*
+     * Send the updated book information as a JSON object
+     */
+    var updatedBookInfo = updated;
+    res.json(updatedBookInfo);
+  });
 });
 /*
  * Delete a book based upon the specified ID
@@ -124,14 +132,17 @@ app.delete('/api/books/:id', (req, res) => {
    */
   const bookId = req.params.id;
   /*
-   * TODO: use the books model and find using
+   * use the books model and find using
    * the bookId and delete the book
    */
-  /*
-   * Send the deleted book information as a JSON object
-   */
-  var deletedBook = {};
-  res.json(deletedBook);
+  db.books.findByIdAndDelete(bookId, (err, deleted) => {
+    if (err) throw err;
+    /*
+     * Send the deleted book information as a JSON object
+     */
+    var deletedBook = deleted;
+    res.json(deletedBook);
+  });
 });
 
 

@@ -1,5 +1,5 @@
 {
-  "name": "cloud-computing-exercise-app",
+  "name": "cc",
   "version": "1.0.0",
   "description": "Build an app for library portal",
   "main": "server.js",
@@ -8,9 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/PhuNH/cc.git"
   },
-  "author": "Anshul Jindal",
+  "author": "PhuNH",
   "license": "ISC",
   "bugs": {
     "url": ""
