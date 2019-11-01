@@ -10,6 +10,6 @@ const mongoose = require('mongoose'),
       language: String // language in which the book is released
  });
 
- const BooksModel = mongoose.model('books', BooksSchema);
+ const BooksModel = mongoose.model('books', BooksSchema); // this is the table/collection name
 
  module.exports = BooksModel;
