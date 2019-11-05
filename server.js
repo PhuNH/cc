@@ -60,7 +60,7 @@ app.get('/api/profile', (req, res) => {
     'apiDocumentationURL': '', //leave this also blank for the first exercise
     'currentCity': 'Some City',
     'hobbies': ['Some adventurous hobby', 'Some stupid hobby', 'Some useful hobby', 'Some hobby']
-  })
+  });
 });
 /*
  * Get All books information
@@ -81,7 +81,6 @@ app.get('/api/books/', (req, res) => {
  * Add a book information into database
  */
 app.post('/api/books/', (req, res) => {
-
   /*
    * New Book information in req.body
    */
@@ -90,12 +89,11 @@ app.post('/api/books/', (req, res) => {
    * use the books model and create a new object
    * with the information in req.body
    */
-  db.books.create(req.body, (err, book) => {
+  db.books.create(req.body, (err, newBook) => {
     if (err) throw err;
     /*
      * return the new book information object as json
      */
-    var newBook = book;
     res.json(newBook);
   });
 });
@@ -110,16 +108,14 @@ app.put('/api/books/:id', (req, res) => {
   const bookId = req.params.id;
   const bookNewData = req.body;
   console.log(`book ID = ${bookId} \n Book Data = ${bookNewData}`);
-
   /*
    * use the books model and find using the bookId and update the book information
    */
-  db.books.findByIdAndUpdate(bookId, bookNewData, (err, updated) => {
+  db.books.findByIdAndUpdate(bookId, bookNewData, {new: true}, (err, updatedBookInfo) => {
     if (err) throw err;
     /*
      * Send the updated book information as a JSON object
      */
-    var updatedBookInfo = updated;
     res.json(updatedBookInfo);
   });
 });
@@ -135,22 +131,21 @@ app.delete('/api/books/:id', (req, res) => {
    * use the books model and find using
    * the bookId and delete the book
    */
-  db.books.findByIdAndDelete(bookId, (err, deleted) => {
+  db.books.findByIdAndDelete(bookId, (err, deletedBook) => {
     if (err) throw err;
     /*
      * Send the deleted book information as a JSON object
      */
-    var deletedBook = deleted;
     res.json(deletedBook);
   });
 });
 
-
+// TODO:  Add API end point /api/exercise2
 /**********
  * SERVER *
  **********/
 
 // listen on the port 3000
-app.listen(process.env.PORT || 80, () => {
-  console.log('Express server is up and running on http://localhost:80/');
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Express server is up and running on http://localhost:3000/');
 });
