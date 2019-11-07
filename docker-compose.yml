@@ -1,15 +1,15 @@
 version: '3'
 services:
   server:
-    build: ./server
-    image: HUB_ID/cloudcomputinggroup#:latest
-    container_name: cloudcomputinggroup#
+    build: .
+    image: phunh/cloudcomputinggroup196:latest
+    container_name: cloudcomputinggroup196
     depends_on:
       - "mongodb"
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/booksData
     ports:
-      - "3000:3000"
+      - "3000:3030" # HOST:CONTAINER
     restart: always
   mongodb:
     image: mongo:latest
@@ -19,5 +19,5 @@ services:
     volumes:
       - ./data/:/data/db
     ports:
-        - "27017:27017"
+      - "27017"
 
