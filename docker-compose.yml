@@ -9,7 +9,7 @@ services:
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/booksData
     ports:
-      - "3000:3030" # HOST:CONTAINER
+      - "3000:3000" # HOST:CONTAINER
     restart: always
   mongodb:
     image: mongo:latest

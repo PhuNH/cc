@@ -15,10 +15,10 @@ RUN npm install
 COPY . /usr/src
 
 # Make port available to the host machine
-EXPOSE 3030
+EXPOSE 3000
 
 # Define environment variable
-ENV PORT 3030
+ENV PORT 3000
 
 # Start command
 CMD ["node", "server.js"]

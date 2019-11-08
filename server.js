@@ -148,7 +148,7 @@ app.get('/api/exercise2', (req, res) => {
  res.send("group 196 application deployed using docker"); 
 });
 
-// listen on the port 3030
-app.listen(process.env.PORT || 3030, () => {
-  console.log('Express server is up and running on http://localhost:3030/');
+// listen on the port 3000
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Express server is up and running on http://localhost:3000/');
 });
