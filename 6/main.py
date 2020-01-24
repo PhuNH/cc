@@ -42,13 +42,13 @@ def outliers_z_score(ys):
     :return:  The indexes of values which are above the threshold.
     """
     ##############################################################################
-    #    TODO
+    #    
     #    Calculate Z-Scores here
     ##############################################################################
     threshold = 3
-    mean_y = None
-    stdev_y = None
-    z_scores = None
+    mean_y = np.mean(ys)
+    stdev_y = np.std(ys)
+    z_scores = (ys - mean_y) / stdev_y
     return np.where(np.abs(z_scores) > threshold), z_scores, mean_y, stdev_y
 
 
@@ -61,13 +61,13 @@ def outliers_modified_z_score(ys):
     :return:  The indexes of values which are above the threshold.
     """
     ##############################################################################
-    #    TODO
+    #    
     #    Calculate Z-Scores here
     ##############################################################################
     threshold = 3
-    median_y = None
-    median_absolute_deviation_y = None
-    modified_z_scores = None
+    median_y = np.median(ys)
+    median_absolute_deviation_y = np.median(np.abs(ys - median_y))
+    modified_z_scores = (ys - median_y) / 1.486 / median_absolute_deviation_y
     return np.where(np.abs(modified_z_scores) > threshold), modified_z_scores, median_y, median_absolute_deviation_y
 
 
@@ -80,48 +80,48 @@ def outliers_iqr(ys):
     :return:  The indexes of values which are outside the quartiles.
     """
     ##############################################################################
-    #    TODO
+    #    
     #    Calculate IQR here
     ##############################################################################
-    quartile_1, quartile_3 = None
-    iqr = None
-    lower_bound = None
-    upper_bound = None
+    quartile_1, quartile_3 = np.percentile(ys, [25, 75])
+    iqr = quartile_3 - quartile_1
+    lower_bound = quartile_1 - 1.5 * iqr
+    upper_bound = quartile_3 + 1.5 * iqr
     return np.where((ys > upper_bound) | (ys < lower_bound))
 
 
-# TODO: Write your group number in place of #
+# Write your group number in place of #
 @app.route("/")
 def index():
-    return "welcome to exercise 6 of group #"
+    return "welcome to exercise 6 of group 196"
 
 
-# TODO:  Return the name of the project which took most of the time when you create a server in Openstack.
+# Return the name of the project which took most of the time when you create a server in Openstack.
 @app.route("/project_most_time_server_creation")
 def project_most_time_server_creation():
-    return ""
+    return "nova"
 
 
-# TODO: Return the name of the service which took most of the time when you create a server in Openstack.
+# Return the name of the service which took most of the time when you create a server in Openstack.
 @app.route("/service_most_time_server_creation")
 def service_most_time_server_creation():
-    return ""
+    return "nova-compute"
 
 
-# TODO: Return the first request path triggered when you create a server in Openstack.
+# Return the first request path triggered when you create a server in Openstack.
 @app.route("/first_request_path")
 def first_request_path():
-    return ""
+    return "/identity/"
 
 
-# TODO: Return the sequence of the Projects being triggered each separating
+# Return the sequence of the Projects being triggered each separating
 #  by a comma without any spaces (All till level 2 and including level 2) when you create a server in Openstack.
 @app.route("/sequence_projects")
 def sequence_projects():
-    return ""
+    return "keystone,nova,neutron,glance" # "keystone,nova,neutron,nova,glance,neutron,nova,keystone,neutron,nova,neutron,nova"
 
 
-# TODO: Return the anomaly observation indexes using z-score method
+# Return the anomaly observation indexes using z-score method
 @app.route("/get_outliers_z_score")
 def get_outliers_z_score():
     df_mongo = get_traces()
@@ -129,7 +129,7 @@ def get_outliers_z_score():
     return Response(json.dumps(anomaly_observations[0].tolist()),  mimetype='application/json')
 
 
-# TODO: Return the anomaly observation indexes using modified z-score method
+# Return the anomaly observation indexes using modified z-score method
 @app.route("/get_outliers_modified_z_score")
 def get_outliers_modified_z_score():
     df_mongo = get_traces()
@@ -137,7 +137,7 @@ def get_outliers_modified_z_score():
     return Response(json.dumps(anomaly_observations[0].tolist()),  mimetype='application/json')
 
 
-# TODO: Return the anomaly observation indexes using IQR method
+# Return the anomaly observation indexes using IQR method
 @app.route("/get_outliers_iqr")
 def get_outliers_iqr():
     df_mongo = get_traces()
